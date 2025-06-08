@@ -1,12 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { validateCreateUser, validateUpdateUser } = require('../middlewares/validators/userValidator');
 
-router.post('/usuarios', userController.createUser);
-router.get('/usuarios', userController.getAllUsers);
-router.get('/usuarios/:id', userController.getUserById);
+// Rotas Externas (prefixadas com /api pelo server.js)
+router.post('/', validateCreateUser, userController.createUser);
+router.get('/', userController.getAllUsers);
+router.get('/:id', userController.getUserById);
+router.put('/:id', validateUpdateUser, userController.updateUser);
+router.delete('/:id', userController.deleteUser);
 
-// Rotas internas (exemplo)
-router.get('/interno/usuarios/:id/contato', userController.getUserById); // Simplificado, idealmente retornaria só o contato
+// Rotas Internas (prefixadas com /interno pelo server.js)
+// Usadas por outros microservices, podem ter menos validações ou validações específicas
+// e retornar apenas os dados estritamente necessários.
+router.get('/:id/contato', userController.getUserContactInternal);
+
 
 module.exports = router;

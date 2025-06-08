@@ -1,32 +1,81 @@
 const UserModel = require('../models/userModel');
+const ApiError = require('../errors/ApiError');
 
-exports.createUser = (req, res) => {
-    UserModel.create(req.body, (err, user) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ error: 'Failed to create user', details: err.message });
+class UserController {
+    async createUser(req, res, next) {
+        try {
+            // Validação já feita pelo middleware userValidator.validateCreateUser
+            const newUser = await UserModel.create(req.body);
+            res.status(201).json({ success: true, data: newUser });
+        } catch (error) {
+            next(error); // Passa para o error handler global
         }
-        res.status(201).json(user);
-    });
-};
+    }
 
-exports.getUserById = (req, res) => {
-    UserModel.findById(req.params.id, (err, user) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ error: 'Failed to get user' });
+    async getAllUsers(req, res, next) {
+        try {
+            const users = await UserModel.getAll(req.query); // Passa query params para filtros/paginação
+            res.status(200).json({ success: true, count: users.length, data: users });
+        } catch (error) {
+            next(error);
         }
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        res.json(user);
-    });
-};
+    }
 
-exports.getAllUsers = (req, res) => {
-    UserModel.getAll((err, users) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ error: 'Failed to get users' });
+    async getUserById(req, res, next) {
+        try {
+            const { id } = req.params;
+            const user = await UserModel.findById(id);
+            if (!user) {
+                throw new ApiError(404, 'Usuário não encontrado.');
+            }
+            res.status(200).json({ success: true, data: user });
+        } catch (error) {
+            next(error);
         }
-        res.json(users);
-    });
-};  
+    }
+    
+    // Especial para rota interna de obter contato
+    async getUserContactInternal(req, res, next) {
+        try {
+            const { id } = req.params;
+            const user = await UserModel.findById(id);
+            if (!user) {
+                throw new ApiError(404, 'Usuário não encontrado para obter contato.');
+            }
+            // Retornar apenas o necessário para o serviço de notificação
+            res.status(200).json({ id_usuario: user.id_usuario, numero_celular: user.numero_celular });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
+    async updateUser(req, res, next) {
+        try {
+            const { id } = req.params;
+            // Validação do corpo já feita pelo middleware userValidator.validateUpdateUser
+            const updatedUser = await UserModel.update(id, req.body);
+            if (!updatedUser) {
+                throw new ApiError(404, 'Usuário não encontrado para atualização.');
+            }
+            res.status(200).json({ success: true, data: updatedUser });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async deleteUser(req, res, next) {
+        try {
+            const { id } = req.params;
+            const success = await UserModel.delete(id);
+            if (!success) {
+                throw new ApiError(404, 'Usuário não encontrado para deleção.');
+            }
+            res.status(204).send(); // 204 No Content
+        } catch (error) {
+            next(error);
+        }
+    }
+}
+
+module.exports = new UserController();

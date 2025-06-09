@@ -1,7 +1,7 @@
 {
   "name": "users-service",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "start:dev": "nodemon src/server.js"
@@ -13,7 +13,9 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "sqlite3": "^5.1.7"
+    "joi": "^17.13.3",
+    "sqlite3": "^5.1.7",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

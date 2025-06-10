@@ -45,7 +45,7 @@ const notificationServiceClient = axios.create({
 // Funções de chamada
 exports.getMonitoredPointDetails = async (alarmId, pointId) => {
     // Alarms service expõe /interno/alarmes/:id_alarme/ponto/:id_ponto
-    const responseData = await request(alarmsServiceClient, 'get', `/interno/alarmes/${alarmId}/ponto/${pointId}`);
+    const responseData = await request(alarmsServiceClient, 'get', `/interno/${alarmId}/ponto/${pointId}`);
     if (responseData && responseData.success) {
         return responseData.data;
     }
@@ -57,7 +57,7 @@ exports.getMonitoredPointDetails = async (alarmId, pointId) => {
 
 exports.updateMonitoredPointStatus = async (alarmId, pointId, status) => {
     // Alarms service expõe PUT /interno/alarmes/:id_alarme/ponto/:id_ponto/status
-    const responseData = await request(alarmsServiceClient, 'put', `/interno/alarmes/${alarmId}/ponto/${pointId}/status`, { status_ponto: status });
+    const responseData = await request(alarmsServiceClient, 'put', `/interno/${alarmId}/ponto/${pointId}/status`, { status_ponto: status });
     if (responseData && responseData.success) {
         return responseData.data;
     }
@@ -69,7 +69,7 @@ exports.updateMonitoredPointStatus = async (alarmId, pointId, status) => {
 
 exports.logEvent = async (eventData) => {
     // Logging service expõe /interno/logs/registrar
-    const responseData = await request(loggingServiceClient, 'post', '/interno/logs/registrar', eventData);
+    const responseData = await request(loggingServiceClient, 'post', '/', eventData);
     if (!responseData || !responseData.success) {
         console.warn('[TriggerControl] Falha ao registrar log, mas continuando:', responseData);
     }
@@ -78,7 +78,7 @@ exports.logEvent = async (eventData) => {
 
 exports.notifyUsers = async (notificationData) => {
     // Notification service expõe /interno/notificacoes/enviar
-    const responseData = await request(notificationServiceClient, 'post', '/interno/notificacoes/enviar', notificationData);
+    const responseData = await request(notificationServiceClient, 'post', '/', notificationData);
     if (!responseData || !responseData.success) {
         console.warn('[TriggerControl] Falha ao enviar notificação, mas continuando:', responseData);
     }

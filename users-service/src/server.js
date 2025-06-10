@@ -19,8 +19,7 @@ if (config.nodeEnv === 'development') {
 }
 
 // Rotas
-app.use('/api/usuarios', userRoutes); // Rotas expostas externamente
-app.use('/interno/usuarios', userRoutes); // Rotas para comunicação interna entre serviços
+app.use('/', userRoutes);
 
 // Tratador de rotas não encontradas (404)
 app.use((req, res, next) => {

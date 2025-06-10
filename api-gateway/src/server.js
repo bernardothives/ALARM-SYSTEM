@@ -16,25 +16,8 @@ app.use(cors({ origin: config.corsOrigin })); // Permite requisições Cross-Ori
 // Logging HTTP - 'dev' para desenvolvimento, 'combined' para produção
 app.use(morgan(config.nodeEnv === 'development' ? 'dev' : 'combined'));
 
-// Middleware para parsear JSON (o proxy encaminha o corpo original)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// --- Autenticação/Autorização (Placeholder) ---
-// Em um sistema real, aqui viria um middleware para validar tokens JWT, API Keys, etc.
-// app.use('/api', authenticateRequestMiddleware);
-// Por exemplo:
-// app.use((req, res, next) => {
-//   console.log(`[API Gateway] Recebida ${req.method} para ${req.originalUrl}`);
-//   // Aqui você pode adicionar lógica de autenticação antes de encaminhar
-//   // Se não autenticado: return next(new ApiError(401, 'Não autorizado'));
-//   next();
-// });
-
-
 // --- Configuração das Rotas de Proxy ---
 setupProxies(app);
-
 
 // --- Tratamento de Erros ---
 // Rota não encontrada no Gateway (se nenhuma regra de proxy corresponder)

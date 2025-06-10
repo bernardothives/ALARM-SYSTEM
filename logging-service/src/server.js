@@ -17,8 +17,8 @@ if (config.nodeEnv === 'development') {
 }
 
 // Rotas
-app.use('/interno/logs', logRoutes); // Para o endpoint /interno/logs/registrar
-app.use('/api/logs', logRoutes);     // Para os endpoints /api/logs e /api/logs/:id_evento
+// app.use('/interno/logs', logRoutes); // Para o endpoint /interno/logs/registrar
+app.use('/', logRoutes);     // Para os endpoints /api/logs e /api/logs/:id_evento
 
 app.use((req, res, next) => {
     const err = new Error('Rota não encontrada.');

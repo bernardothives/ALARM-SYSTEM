@@ -20,6 +20,7 @@ if (config.nodeEnv === 'development') {
 
 // Rotas
 app.use('/', userRoutes);
+// app.use('/interno/usuarios', userRoutes);
 
 // Tratador de rotas não encontradas (404)
 app.use((req, res, next) => {

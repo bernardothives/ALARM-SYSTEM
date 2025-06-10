@@ -17,8 +17,8 @@ if (config.nodeEnv === 'development') {
 }
 
 // Rotas
-app.use('/api/alarmes', alarmRoutes); // Rotas expostas externamente
-app.use('/interno/alarmes', alarmRoutes); // Rotas para comunicação interna entre serviços (ex: /interno/alarmes/:id_alarme/usuarios)
+app.use('/', alarmRoutes); // Rotas expostas externamente
+// app.use('/interno/alarmes', alarmRoutes); // Rotas para comunicação interna entre serviços (ex: /interno/alarmes/:id_alarme/usuarios)
 
 app.use((req, res, next) => {
     const err = new Error('Rota não encontrada.');

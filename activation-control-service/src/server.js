@@ -20,7 +20,7 @@ if (config.nodeEnv === 'development') {
 // Rotas
 // O API Gateway encaminhará para /api/alarmes/... aqui.
 // Ex: Gateway recebe /api/alarmes/uuid123/armar e encaminha para este serviço na rota /api/alarmes/uuid123/armar
-app.use('/api/alarmes', activationRoutes);
+app.use('/', activationRoutes);
 
 
 app.use((req, res, next) => {

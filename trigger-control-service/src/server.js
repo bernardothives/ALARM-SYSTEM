@@ -18,7 +18,7 @@ if (config.nodeEnv === 'development') {
 
 // Rotas
 // O API Gateway encaminhará para /api/alarmes/... aqui.
-app.use('/api/alarmes', triggerRoutes);
+app.use('/', triggerRoutes);
 
 
 app.use((req, res, next) => {

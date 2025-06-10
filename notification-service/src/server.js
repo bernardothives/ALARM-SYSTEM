@@ -18,7 +18,7 @@ if (config.nodeEnv === 'development') {
 
 // Rotas
 // Este serviço só tem rotas internas
-app.use('/interno/notificacoes', notificationRoutes);
+app.use('/', notificationRoutes);
 
 
 app.use((req, res, next) => {

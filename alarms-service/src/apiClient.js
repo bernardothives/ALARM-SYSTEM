@@ -33,7 +33,7 @@ async function request(client, method, url, data = null) {
 exports.checkUserExists = async (userId) => {
     try {
         // Assumindo que users-service expõe /interno/usuarios/:id que retorna o usuário ou 404
-        const responseData = await request(usersServiceClient, 'get', `/interno/usuarios/${userId}`);
+        const responseData = await request(usersServiceClient, 'get', `/${userId}`);
         return responseData && responseData.success && responseData.data; // Retorna o usuário se encontrado
     } catch (error) {
         if (error instanceof ApiError && error.statusCode === 404) {

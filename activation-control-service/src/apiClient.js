@@ -47,7 +47,7 @@ const notificationServiceClient = axios.create({
 exports.getAlarmDetails = async (alarmId) => {
     // Alarms service expõe /api/alarmes/:id_alarme para detalhes externos
     // ou poderia ter um /interno/alarmes/:id_alarme
-    const responseData = await request(alarmsServiceClient, 'get', `/api/alarmes/${alarmId}`);
+    const responseData = await request(alarmsServiceClient, 'get', `/${alarmId}`);
     if (responseData && responseData.success) {
         return responseData.data;
     }
@@ -61,7 +61,7 @@ exports.getAlarmDetails = async (alarmId) => {
 
 exports.logEvent = async (eventData) => {
     // Logging service expõe /interno/logs/registrar
-    const responseData = await request(loggingServiceClient, 'post', '/interno/logs/registrar', eventData);
+    const responseData = await request(loggingServiceClient, 'post', '/', eventData);
     if (!responseData || !responseData.success) {
         // Logar falha mas não necessariamente parar o fluxo principal, dependendo da criticidade
         console.warn('[ActivationControl] Falha ao registrar log, mas continuando:', responseData);
@@ -71,7 +71,7 @@ exports.logEvent = async (eventData) => {
 
 exports.notifyUsers = async (notificationData) => {
     // Notification service expõe /interno/notificacoes/enviar
-    const responseData = await request(notificationServiceClient, 'post', '/interno/notificacoes/enviar', notificationData);
+    const responseData = await request(notificationServiceClient, 'post', '/', notificationData);
      if (!responseData || !responseData.success) {
         console.warn('[ActivationControl] Falha ao enviar notificação, mas continuando:', responseData);
     }

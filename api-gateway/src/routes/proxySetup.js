@@ -43,36 +43,38 @@ const createProxy = (targetUrl, pathRewriteRules = null) => {
     });
 };
 
+// api-gateway/src/routes/proxySetup.js
+
 module.exports = function (app) {
-    // --- Users Service ---
+    // Rota para Users Service (permanece igual)
     if (config.services.users) {
         app.use('/api/usuarios', createProxy(config.services.users));
     }
 
-    // --- Logging Service (para consulta externa) ---
+    // Rota para Logging Service (permanece igual)
     if (config.services.logging) {
         app.use('/api/logs', createProxy(config.services.logging));
     }
 
-    // --- Rotas complexas para /api/alarmes ---
-    // Estas rotas precisam ser definidas ANTES da rota genérica para o alarms-service
+    // --- NOVA ESTRUTURA DE ROTAS ---
 
-    // Activation Control Service (Armar/Desarmar)
+    // Rota para Activation Control Service (Armar/Desarmar)
+    // Agora tem seu próprio prefixo: /api/activation
     if (config.services.activationControl) {
-        app.use('/api/alarmes/:id_alarme/armar', createProxy(config.services.activationControl));
-        app.use('/api/alarmes/:id_alarme/desarmar', createProxy(config.services.activationControl));
+        app.use('/api/activation', createProxy(config.services.activationControl));
     }
 
-    // Trigger Control Service (Disparar)
+    // Rota para Trigger Control Service (Disparar)
+    // Agora tem seu próprio prefixo: /api/trigger
     if (config.services.triggerControl) {
-        app.use('/api/alarmes/:id_alarme/disparar', createProxy(config.services.triggerControl));
+        app.use('/api/trigger', createProxy(config.services.triggerControl));
     }
 
-    // Alarms Service (CRUD de alarmes, pontos, usuários vinculados)
-    // Esta deve ser a última rota para /api/alarmes para pegar tudo que não foi pego antes.
+    // Rota para Alarms Service (CRUD de alarmes e pontos)
+    // Permanece a mesma, pois é o serviço principal para este recurso.
     if (config.services.alarms) {
         app.use('/api/alarmes', createProxy(config.services.alarms));
     }
 
-    console.log('[API Gateway] Configuração de proxy concluída.');
+    console.log('[API Gateway] Configuração de proxy robusta concluída.');
 };

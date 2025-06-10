@@ -43,7 +43,7 @@ class UserController {
                 throw new ApiError(404, 'Usuário não encontrado para obter contato.');
             }
             // Retornar apenas o necessário para o serviço de notificação
-            res.status(200).json({ id_usuario: user.id_usuario, numero_celular: user.numero_celular });
+            res.status(200).json({data: { id_usuario: user.id_usuario, numero_celular: user.numero_celular }});
         } catch (error) {
             next(error);
         }

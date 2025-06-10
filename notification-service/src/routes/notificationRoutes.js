@@ -6,7 +6,7 @@ const { validateSendNotificationBody } = require('../middlewares/validators/noti
 // Rota Interna, chamada por outros microservices
 // O prefixo /interno/notificacoes será adicionado no server.js
 router.post(
-    '/enviar',
+    '/',
     validateSendNotificationBody,
     notificationController.sendNotification
 );

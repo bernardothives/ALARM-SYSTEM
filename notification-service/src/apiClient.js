@@ -39,7 +39,7 @@ const usersServiceClient = axios.create({
 exports.getUsersForAlarm = async (alarmId) => {
     // Alarms service expõe /interno/alarmes/:id_alarme/usuarios
     // Espera-se que retorne { success: true, data: [{ id_usuario: 'uuid', permissao: 'admin' }, ...] }
-    const responseData = await request(alarmsServiceClient, 'get', `/interno/alarmes/${alarmId}/usuarios`);
+    const responseData = await request(alarmsServiceClient, 'get', `/${alarmId}/usuarios`);
     if (responseData && responseData.success) {
         return responseData.data; // Array de usuários vinculados
     }
@@ -50,8 +50,8 @@ exports.getUsersForAlarm = async (alarmId) => {
 exports.getUserContactDetails = async (userId) => {
     // Users service expõe /interno/usuarios/:id_usuario/contato
     // Espera-se que retorne { success: true, data: { id_usuario: 'uuid', numero_celular: 'xxxx' } }
-    const responseData = await request(usersServiceClient, 'get', `/interno/usuarios/${userId}/contato`);
-    if (responseData && responseData.success && responseData.data) {
+    const responseData = await request(usersServiceClient, 'get', `/${userId}/contato`);
+    if (responseData.data) {
         return responseData.data.numero_celular; // Apenas o número de celular
     }
     console.warn(`[NotificationSvc-ApiClient] Não foi possível obter contato para o usuário ${userId}. Resposta:`, responseData);

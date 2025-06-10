@@ -5,7 +5,7 @@ const { validateCreateLog, validateGetLogsQuery } = require('../middlewares/vali
 
 // Rota Interna (usada por outros microservices para registrar logs)
 // Não precisa de prefixo /api, será acessada como /interno/logs/registrar
-router.post('/registrar', validateCreateLog, logController.createLogEntry);
+router.post('/', validateCreateLog, logController.createLogEntry);
 
 
 // Rotas Externas (prefixadas com /api pelo server.js, para consulta de logs)

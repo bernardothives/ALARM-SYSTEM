@@ -205,7 +205,7 @@ Use o **Postman** ou similar para testar. **Todas as requisições devem ser fei
 ### Cenário 2: Orquestração de Eventos
 
 1.  **Armar o Alarme**
-    -   `POST` `http://localhost:3000/api/alarmes/<SEU_ID_DE_ALARME>/armar`
+    -   `POST` `http://localhost:3000/api/activation/<SEU_ID_DE_ALARME>/armar`
     -   Body:
         ```json
         { "id_usuario_acionador": "<SEU_ID_DE_USUARIO>", "metodo": "app_mobile" }
@@ -213,7 +213,7 @@ Use o **Postman** ou similar para testar. **Todas as requisições devem ser fei
     -   **Observe os logs** nos terminais dos serviços `activation-control`, `logging` e `notification`. Você deve ver a notificação simulada.
 
 2.  **Disparar o Alarme**
-    -   `POST` `http://localhost:3000/api/alarmes/<SEU_ID_DE_ALARME>/disparar`
+    -   `POST` `http://localhost:3000/api/trigger/<SEU_ID_DE_ALARME>/disparar`
     -   Body:
         ```json
         { "id_ponto": "<SEU_ID_DE_PONTO>", "timestamp_disparo": "2025-06-09T15:00:00Z" }
